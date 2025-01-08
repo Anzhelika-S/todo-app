@@ -2,7 +2,7 @@ import "./Task.css";
 
 export default function Task() {
   return (
-    <li className="completed">
+    <>
       <div className="view">
         <input
           className="toggle"
@@ -15,7 +15,7 @@ export default function Task() {
         <button className="icon icon-edit"></button>
         <button className="icon icon-destroy"></button>
       </div>
-    </li>
+    </>
   );
 }
 
@@ -68,26 +68,3 @@ export default function Task() {
             </div>
           </li> */
 }
-
-// <span className="todo-list-item">
-//   <span
-//     className="todo-list-item-label"
-//     style={style}
-//   >
-//     {label}
-//   </span>
-
-//   <button
-//     type="button"
-//     className="btn btn-outline-success btn-sm float-end"
-//   >
-//     <i className="fas fa-solid fa-exclamation"></i>
-//   </button>
-
-//   <button
-//     type="button"
-//     className="btn btn-outline-danger btn-sm float-end"
-//   >
-//     <i className="fas fa-solid fa-trash-can" />
-//   </button>
-// </span>

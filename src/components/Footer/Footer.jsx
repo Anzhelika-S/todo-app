@@ -1,21 +1,12 @@
 import "./Footer.css";
+import ItemStatusFilter from "./ItemStatusFilter/ItemStatusFilter";
 
 export default function Footer() {
   return (
-    <footer class="footer">
-      <span class="todo-count">1 items left</span>
-      <ul class="filters">
-        <li>
-          <button class="selected">All</button>
-        </li>
-        <li>
-          <button>Active</button>
-        </li>
-        <li>
-          <button>Completed</button>
-        </li>
-      </ul>
-      <button class="clear-completed">Clear completed</button>
+    <footer className="footer">
+      <span className="todo-count">1 items left</span>
+      <ItemStatusFilter />
+      <button className="clear-completed">Clear completed</button>
     </footer>
   );
 }

@@ -6,10 +6,11 @@ import TaskList from "./components/TaskList/TaskList";
 import Footer from "./components/Footer/Footer";
 
 function App() {
+  const tasks = [{ state: "completed" }, { state: "editing" }, { state: null }];
   return (
     <>
       <Header />
-      <TaskList />
+      <TaskList tasks={tasks} />
       <Footer />
     </>
   );
