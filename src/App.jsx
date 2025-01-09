@@ -6,7 +6,11 @@ import TaskList from "./components/TaskList/TaskList";
 import Footer from "./components/Footer/Footer";
 
 function App() {
-  const tasks = [{ state: "completed" }, { state: "editing" }, { state: null }];
+  const tasks = [
+    { state: "completed", edit: false },
+    { state: "editing", edit: true },
+    { state: null, edit: false },
+  ];
   return (
     <>
       <Header />

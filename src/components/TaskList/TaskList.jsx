@@ -5,7 +5,7 @@ export default function TaskList({ tasks }) {
   const elements = tasks.map((item) => {
     return (
       <li className={item.state}>
-        <Task />
+        <Task edit={item.edit} />
       </li>
     );
   });
