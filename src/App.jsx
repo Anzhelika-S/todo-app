@@ -9,11 +9,7 @@ export default class App extends Component {
   maxID = 100;
 
   state = {
-    tasks: [
-      { stateNow: "completed", edit: false, id: 1 },
-      { stateNow: "editing", edit: true, id: 2 },
-      { stateNow: null, edit: false, id: 3 },
-    ],
+    tasks: [{ id: 1 }, { id: 2 }, { id: 3 }],
   };
 
   deleteTask = (id) => {
@@ -30,8 +26,6 @@ export default class App extends Component {
 
   handleKey = ({ key }) => {
     const task = {
-      stateNow: "completed",
-      edit: false,
       id: this.maxID++,
     };
     if (key === "Enter") {
