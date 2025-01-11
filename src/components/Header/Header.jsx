@@ -7,7 +7,7 @@ export default class Header extends Component {
     return (
       <header>
         <h1 className="header">todos</h1>
-        <NewTaskForm />
+        <NewTaskForm handleKey={this.props.handleKey} />
       </header>
     );
   }

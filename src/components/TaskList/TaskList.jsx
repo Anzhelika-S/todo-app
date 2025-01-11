@@ -3,14 +3,18 @@ import Task from "../Task";
 import "./TaskList.css";
 
 export default class TaskList extends Component {
-  elements = this.props.tasks.map((item) => {
-    return (
-      <li className={item.state}>
-        <Task edit={item.edit} />
-      </li>
-    );
-  });
   render() {
-    return <ul className="list-group todo-list">{this.elements}</ul>;
+    const elements = this.props.tasks.map((item) => {
+      return (
+        <Task
+          edit={item.edit}
+          stateNow={item.stateNow}
+          key={item.id}
+          id={item.id}
+          onDeleted={this.props.onDeleted}
+        />
+      );
+    });
+    return <ul className="list-group todo-list">{elements}</ul>;
   }
 }

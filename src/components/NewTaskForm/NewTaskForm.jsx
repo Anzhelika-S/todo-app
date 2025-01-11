@@ -8,6 +8,7 @@ export default class NewTaskForm extends Component {
         className="new-todo"
         placeholder="What needs to be done?"
         autoFocus
+        onKeyDown={this.props.handleKey}
       />
     );
   }
