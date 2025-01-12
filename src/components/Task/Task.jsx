@@ -44,7 +44,7 @@ export default class Task extends Component {
           ></button>
           <button
             className="icon icon-destroy"
-            onClick={() => onDeleted(id)}
+            onClick={(event) => onDeleted(id, event)}
           ></button>
         </div>
         <input

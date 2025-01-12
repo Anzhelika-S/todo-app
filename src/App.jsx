@@ -39,39 +39,35 @@ export default class App extends Component {
     }
   };
 
+  toggleProperty = (arr, id, propName) => {
+    const idx = arr.findIndex((el) => el.id === id);
+    if (idx < 0) return;
+
+    const oldTask = arr[idx];
+    const newTask = { ...oldTask, [propName]: !oldTask[propName] };
+
+    return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
+  };
+
   onToggleCompleted = (id) => {
     this.setState(({ tasks }) => {
-      const idx = tasks.findIndex((el) => el.id === id);
-      if (idx < 0) return;
-
-      const oldTask = tasks[idx];
-      const newTask = { ...oldTask, completed: !oldTask.completed };
-
-      const newArr = [...tasks.slice(0, idx), newTask, ...tasks.slice(idx + 1)];
-
       return {
-        tasks: newArr,
+        tasks: this.toggleProperty(tasks, id, "completed"),
       };
     });
   };
 
   onToggleEditing = (id) => {
     this.setState(({ tasks }) => {
-      const idx = tasks.findIndex((el) => el.id === id);
-      if (idx < 0) return;
-
-      const oldTask = tasks[idx];
-      const newTask = { ...oldTask, editing: !oldTask.editing };
-
-      const newArr = [...tasks.slice(0, idx), newTask, ...tasks.slice(idx + 1)];
-
       return {
-        tasks: newArr,
+        tasks: this.toggleProperty(tasks, id, "editing"),
       };
     });
   };
 
-  deleteTask = (id) => {
+  deleteTask = (id, event) => {
+    event.stopPropagation();
+
     this.setState(({ tasks }) => {
       const idx = tasks.findIndex((el) => el.id === id);
 
@@ -84,6 +80,9 @@ export default class App extends Component {
   };
 
   render() {
+    const todoCount =
+      this.state.tasks?.filter((el) => !el.completed).length || 0;
+
     return (
       <>
         <Header handleKey={this.handleKey} />
@@ -93,7 +92,7 @@ export default class App extends Component {
           onToggleCompleted={this.onToggleCompleted}
           onToggleEditing={this.onToggleEditing}
         />
-        <Footer />
+        <Footer left={todoCount} />
       </>
     );
   }
