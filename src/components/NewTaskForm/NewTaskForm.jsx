@@ -15,7 +15,11 @@ export default class NewTaskForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    this.props.handleKey(this.state.value);
+    this.state.value ? this.props.handleKey(this.state.value) : 0;
+
+    this.setState({
+      value: "",
+    });
   };
 
   render() {
@@ -26,7 +30,7 @@ export default class NewTaskForm extends Component {
           placeholder="What needs to be done?"
           autoFocus
           onChange={this.handleChange}
-          defaultValue={this.newValue}
+          value={this.state.value}
         />
       </form>
     );
