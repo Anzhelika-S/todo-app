@@ -23,6 +23,7 @@ export default class App extends Component {
       this.createTask("new task"),
       this.createTask("new task"),
     ],
+    filter: "all",
   };
 
   handleKey = (value) => {
@@ -85,15 +86,33 @@ export default class App extends Component {
     });
   };
 
+  selectTasks = (status) => {
+    this.setState({ filter: status });
+  };
+
+  getFilteredTasks = () => {
+    const { tasks, filter } = this.state;
+
+    switch (filter) {
+      case "active":
+        return tasks.filter((el) => !el.completed);
+      case "completed":
+        return tasks.filter((el) => el.completed);
+      default:
+        return tasks;
+    }
+  };
+
   render() {
     const todoCount =
       this.state.tasks?.filter((el) => !el.completed).length || 0;
+    const filteredTasks = this.getFilteredTasks();
 
     return (
       <>
         <Header handleKey={this.handleKey} />
         <TaskList
-          tasks={this.state.tasks}
+          tasks={filteredTasks}
           onDeleted={this.deleteTask}
           onToggleCompleted={this.onToggleCompleted}
           onToggleEditing={this.onToggleEditing}
@@ -101,6 +120,7 @@ export default class App extends Component {
         <Footer
           left={todoCount}
           onClearCompleted={this.onClearCompleted}
+          selectTasks={this.selectTasks}
         />
       </>
     );
