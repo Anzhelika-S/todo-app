@@ -77,6 +77,14 @@ export default class App extends Component {
     });
   };
 
+  onClearCompleted = () => {
+    const todoList = this.state.tasks.filter((el) => !el.completed);
+
+    this.setState({
+      tasks: todoList,
+    });
+  };
+
   render() {
     const todoCount =
       this.state.tasks?.filter((el) => !el.completed).length || 0;
@@ -90,7 +98,10 @@ export default class App extends Component {
           onToggleCompleted={this.onToggleCompleted}
           onToggleEditing={this.onToggleEditing}
         />
-        <Footer left={todoCount} />
+        <Footer
+          left={todoCount}
+          onClearCompleted={this.onClearCompleted}
+        />
       </>
     );
   }
