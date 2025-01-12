@@ -1,35 +1,18 @@
 import "./Task.css";
 import { Component } from "react";
 export default class Task extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      completed: false,
-      editing: false,
-    };
-  }
-
-  onCompleted = () => {
-    this.setState(({ completed }) => {
-      return {
-        completed: !completed,
-      };
-    });
-  };
-
-  onEditing = () => {
-    this.setState(({ editing }) => {
-      return {
-        editing: !editing,
-      };
-    });
-  };
-
   render() {
     let classNames = "task";
 
-    const { completed, editing } = this.state;
+    const {
+      id,
+      value,
+      onDeleted,
+      onToggleCompleted,
+      onToggleEditing,
+      completed,
+      editing,
+    } = this.props;
 
     if (completed) {
       classNames += " completed";
@@ -41,27 +24,27 @@ export default class Task extends Component {
     return (
       <li
         className={classNames}
-        id={this.props.id}
+        id={id}
       >
         <div
           className="view"
-          onClick={this.onCompleted}
+          onClick={onToggleCompleted}
         >
           <input
             className="toggle"
             type="checkbox"
           />
           <label>
-            <span className="description">Completed task</span>
+            <span className="description">{value}</span>
             <span className="created">created 17 seconds ago</span>
           </label>
           <button
             className="icon icon-edit"
-            onClick={this.onEditing}
+            onClick={onToggleEditing}
           ></button>
           <button
             className="icon icon-destroy"
-            onClick={() => this.props.onDeleted(this.props.id)}
+            onClick={() => onDeleted(id)}
           ></button>
         </div>
         <input

@@ -4,14 +4,19 @@ import "./TaskList.css";
 
 export default class TaskList extends Component {
   render() {
-    const elements = this.props.tasks.map((item) => {
+    const { tasks, onToggleCompleted, onToggleEditing, onDeleted } = this.props;
+
+    const elements = tasks.map((item) => {
       return (
         <Task
-          edit={item.edit}
-          stateNow={item.stateNow}
           key={item.id}
           id={item.id}
-          onDeleted={this.props.onDeleted}
+          onDeleted={onDeleted}
+          value={item.value}
+          completed={item.completed}
+          editing={item.editing}
+          onToggleCompleted={() => onToggleCompleted(item.id)}
+          onToggleEditing={() => onToggleEditing(item.id)}
         />
       );
     });
