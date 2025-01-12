@@ -25,18 +25,16 @@ export default class App extends Component {
     ],
   };
 
-  handleKey = (value, key) => {
+  handleKey = (value) => {
     const task = this.createTask(value);
 
-    if (key === "Enter") {
-      this.setState(({ tasks }) => {
-        const newArr = [...tasks, task];
+    this.setState(({ tasks }) => {
+      const newArr = [...tasks, task];
 
-        return {
-          tasks: newArr,
-        };
-      });
-    }
+      return {
+        tasks: newArr,
+      };
+    });
   };
 
   toggleProperty = (arr, id, propName) => {
