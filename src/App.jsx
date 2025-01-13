@@ -120,6 +120,7 @@ export default class App extends Component {
         <Footer
           left={todoCount}
           onClearCompleted={this.onClearCompleted}
+          filter={this.state.filter}
           selectTasks={this.selectTasks}
         />
       </>

@@ -3,12 +3,28 @@ import "./ItemStatusFilter.css";
 
 export default class ItemStatusFilter extends Component {
   render() {
-    const classNames = "";
+    let allClass = "";
+    let activeClass = "";
+    let completedClass = "";
+
+    const { filter } = this.props;
+
+    switch (filter) {
+      case "all":
+        allClass += "selected";
+        break;
+      case "active":
+        activeClass += "selected";
+        break;
+      case "completed":
+        completedClass += "selected";
+    }
+
     return (
       <ul className="filters">
         <li>
           <button
-            className={classNames}
+            className={allClass}
             onClick={() => this.props.selectTasks("all")}
           >
             All
@@ -16,7 +32,7 @@ export default class ItemStatusFilter extends Component {
         </li>
         <li>
           <button
-            className={classNames}
+            className={activeClass}
             onClick={() => this.props.selectTasks("active")}
           >
             Active
@@ -24,7 +40,7 @@ export default class ItemStatusFilter extends Component {
         </li>
         <li>
           <button
-            className={classNames}
+            className={completedClass}
             onClick={() => this.props.selectTasks("completed")}
           >
             Completed
