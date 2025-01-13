@@ -1,6 +1,9 @@
 import "./Task.css";
 import { Component } from "react";
+import { formatDistanceToNowStrict } from "date-fns";
 export default class Task extends Component {
+  createdAt = new Date();
+
   render() {
     let classNames = "task";
 
@@ -20,6 +23,7 @@ export default class Task extends Component {
     if (editing) {
       classNames += " editing";
     }
+    const time = formatDistanceToNowStrict(this.createdAt);
 
     return (
       <li
@@ -36,7 +40,7 @@ export default class Task extends Component {
           />
           <label>
             <span className="description">{value}</span>
-            <span className="created">created 17 seconds ago</span>
+            <span className="created">created {time} ago</span>
           </label>
           <button
             className="icon icon-edit"
