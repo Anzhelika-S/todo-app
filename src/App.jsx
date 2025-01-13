@@ -103,6 +103,19 @@ export default class App extends Component {
     }
   };
 
+  onEdit = (id, value) => {
+    const { tasks } = this.state;
+    let el = tasks.filter((el) => el.id === id);
+    const idx = tasks.findIndex((el) => el.id === id);
+
+    el = { ...el, value: value, id: id };
+    const newArr = [...tasks.slice(0, idx), el, ...tasks.slice(idx + 1)];
+
+    this.setState({
+      tasks: newArr,
+    });
+  };
+
   render() {
     const todoCount =
       this.state.tasks?.filter((el) => !el.completed).length || 0;
@@ -116,6 +129,7 @@ export default class App extends Component {
           onDeleted={this.deleteTask}
           onToggleCompleted={this.onToggleCompleted}
           onToggleEditing={this.onToggleEditing}
+          onEdit={this.onEdit}
         />
         <Footer
           left={todoCount}

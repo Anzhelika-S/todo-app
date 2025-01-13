@@ -4,7 +4,8 @@ import "./TaskList.css";
 
 export default class TaskList extends Component {
   render() {
-    const { tasks, onToggleCompleted, onToggleEditing, onDeleted } = this.props;
+    const { tasks, onToggleCompleted, onToggleEditing, onDeleted, onEdit } =
+      this.props;
 
     const elements = tasks.map((item) => {
       return (
@@ -17,6 +18,7 @@ export default class TaskList extends Component {
           editing={item.editing}
           onToggleCompleted={() => onToggleCompleted(item.id)}
           onToggleEditing={() => onToggleEditing(item.id)}
+          onEdit={onEdit}
         />
       );
     });

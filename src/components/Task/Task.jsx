@@ -4,6 +4,21 @@ import { formatDistanceToNowStrict } from "date-fns";
 export default class Task extends Component {
   createdAt = new Date();
 
+  state = {
+    value: this.props.value,
+  };
+
+  onTaskChange = (e) => {
+    let { value } = e.target;
+
+    this.setState({ value: value });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.onEdit(this.props.id, this.state.value);
+  };
+
   render() {
     let classNames = "task";
 
@@ -20,9 +35,11 @@ export default class Task extends Component {
     if (completed) {
       classNames += " completed";
     }
+
     if (editing) {
       classNames += " editing";
     }
+
     const time = formatDistanceToNowStrict(this.createdAt);
 
     return (
@@ -51,11 +68,14 @@ export default class Task extends Component {
             onClick={(event) => onDeleted(id, event)}
           ></button>
         </div>
-        <input
-          type="text"
-          className="edit"
-          defaultValue="Editing task"
-        />
+        <form onSubmit={this.onSubmit}>
+          <input
+            type="text"
+            className="edit"
+            defaultValue={value}
+            onChange={this.onTaskChange}
+          />
+        </form>
       </li>
     );
   }
