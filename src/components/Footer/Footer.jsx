@@ -1,19 +1,34 @@
 import { Component } from "react";
 import "./Footer.css";
-import ItemStatusFilter from "./ItemStatusFilter/ItemStatusFilter";
+import PropTypes from "prop-types";
+
+import TasksFilter from "./TasksFilter";
 
 export default class Footer extends Component {
+  static propTypes = {
+    left: PropTypes.number,
+    selectTasks: PropTypes.func,
+    filter: PropTypes.string,
+    onClearCompleted: PropTypes.func,
+  };
+
+  static defaultProps = {
+    left: 0,
+    filter: "all",
+  };
+
   render() {
+    const { left, selectTasks, filter, onClearCompleted } = this.props;
     return (
       <footer className="footer">
-        <span className="todo-count">{this.props.left} items left</span>
-        <ItemStatusFilter
-          selectTasks={this.props.selectTasks}
-          filter={this.props.filter}
+        <span className="todo-count">{left} items left</span>
+        <TasksFilter
+          selectTasks={selectTasks}
+          filter={filter}
         />
         <button
           className="clear-completed"
-          onClick={this.props.onClearCompleted}
+          onClick={onClearCompleted}
         >
           Clear completed
         </button>

@@ -1,7 +1,17 @@
 import { Component } from "react";
-import "./ItemStatusFilter.css";
+import "./TasksFilter.css";
+import PropTypes from "prop-types";
 
-export default class ItemStatusFilter extends Component {
+export default class TasksFilter extends Component {
+  static propTypes = {
+    filter: PropTypes.string,
+    selectTasks: PropTypes.func,
+  };
+
+  static defaultProps = {
+    filter: "all",
+  };
+
   render() {
     let allClass = "";
     let activeClass = "";
