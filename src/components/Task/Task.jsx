@@ -71,8 +71,8 @@ export default class Task extends Component {
         <form onSubmit={this.onSubmit}>
           <input
             type="text"
-            className="edit"
             defaultValue={value}
+            className="edit"
             onChange={this.onTaskChange}
           />
         </form>
