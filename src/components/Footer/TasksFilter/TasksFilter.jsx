@@ -1,33 +1,33 @@
-import { Component } from "react";
-import "./TasksFilter.css";
-import PropTypes from "prop-types";
+import { Component } from 'react'
+import './TasksFilter.css'
+import PropTypes from 'prop-types'
 
 export default class TasksFilter extends Component {
   static propTypes = {
     filter: PropTypes.string,
     selectTasks: PropTypes.func,
-  };
+  }
 
   static defaultProps = {
-    filter: "all",
-  };
+    filter: 'all',
+  }
 
   render() {
-    let allClass = "";
-    let activeClass = "";
-    let completedClass = "";
+    let allClass = ''
+    let activeClass = ''
+    let completedClass = ''
 
-    const { filter } = this.props;
+    const { filter } = this.props
 
     switch (filter) {
-      case "all":
-        allClass += "selected";
-        break;
-      case "active":
-        activeClass += "selected";
-        break;
-      case "completed":
-        completedClass += "selected";
+    case 'all':
+      allClass += 'selected'
+      break
+    case 'active':
+      activeClass += 'selected'
+      break
+    case 'completed':
+      completedClass += 'selected'
     }
 
     return (
@@ -35,7 +35,7 @@ export default class TasksFilter extends Component {
         <li>
           <button
             className={allClass}
-            onClick={() => this.props.selectTasks("all")}
+            onClick={() => this.props.selectTasks('all')}
           >
             All
           </button>
@@ -43,7 +43,7 @@ export default class TasksFilter extends Component {
         <li>
           <button
             className={activeClass}
-            onClick={() => this.props.selectTasks("active")}
+            onClick={() => this.props.selectTasks('active')}
           >
             Active
           </button>
@@ -51,12 +51,12 @@ export default class TasksFilter extends Component {
         <li>
           <button
             className={completedClass}
-            onClick={() => this.props.selectTasks("completed")}
+            onClick={() => this.props.selectTasks('completed')}
           >
             Completed
           </button>
         </li>
       </ul>
-    );
+    )
   }
 }

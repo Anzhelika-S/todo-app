@@ -1,9 +1,9 @@
-import "./Task.css";
-import { Component } from "react";
-import PropTypes from "prop-types";
-import { formatDistanceToNowStrict } from "date-fns";
+import './Task.css'
+import { Component } from 'react'
+import PropTypes from 'prop-types'
+import { formatDistanceToNowStrict } from 'date-fns'
 export default class Task extends Component {
-  createdAt = new Date();
+  createdAt = new Date()
 
   static propTypes = {
     id: PropTypes.number,
@@ -14,31 +14,31 @@ export default class Task extends Component {
     onToggleEditing: PropTypes.func,
     completed: PropTypes.bool,
     editing: PropTypes.bool,
-  };
+  }
 
   static defaultProps = {
-    value: "New Task",
+    value: 'New Task',
     completed: false,
     editing: false,
-  };
+  }
 
   state = {
     value: this.props.value,
-  };
+  }
 
   onTaskChange = (e) => {
-    let { value } = e.target;
+    let { value } = e.target
 
-    this.setState({ value: value });
-  };
+    this.setState({ value: value })
+  }
 
   onSubmit = (e) => {
-    e.preventDefault();
-    this.props.onEdit(this.props.id, this.state.value);
-  };
+    e.preventDefault()
+    this.props.onEdit(this.props.id, this.state.value)
+  }
 
   render() {
-    let classNames = "task";
+    let classNames = 'task'
 
     const {
       id,
@@ -48,17 +48,17 @@ export default class Task extends Component {
       onToggleEditing,
       completed,
       editing,
-    } = this.props;
+    } = this.props
 
     if (completed) {
-      classNames += " completed";
+      classNames += ' completed'
     }
 
     if (editing) {
-      classNames += " editing";
+      classNames += ' editing'
     }
 
-    const time = formatDistanceToNowStrict(this.createdAt);
+    const time = formatDistanceToNowStrict(this.createdAt)
 
     return (
       <li
@@ -95,6 +95,6 @@ export default class Task extends Component {
           />
         </form>
       </li>
-    );
+    )
   }
 }
