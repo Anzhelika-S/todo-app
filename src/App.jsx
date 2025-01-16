@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 
 import Header from './components/Header';
@@ -6,11 +7,9 @@ import TaskList from './components/TaskList';
 import Footer from './components/Footer';
 
 export default class App extends Component {
-  maxID = 100;
-
   createTask = (value) => {
     return {
-      id: this.maxID++,
+      id: uuidv4(),
       value,
       completed: false,
       editing: false,

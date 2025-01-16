@@ -6,7 +6,7 @@ export default class Task extends Component {
   createdAt = new Date();
 
   static propTypes = {
-    id: PropTypes.number,
+    id: PropTypes.string,
     value: PropTypes.string,
     onDeleted: PropTypes.func,
     onEdit: PropTypes.func,
@@ -57,7 +57,7 @@ export default class Task extends Component {
     return (
       <li className={classNames} id={id}>
         <div className="view" onClick={onToggleCompleted}>
-          <input className="toggle" type="checkbox" checked={checked} />
+          <input className="toggle" type="checkbox" defaultChecked={checked} />
           <label>
             <span className="description">{value}</span>
             <span className="created">created {time} ago</span>
