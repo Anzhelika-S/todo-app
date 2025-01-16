@@ -1,13 +1,12 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import eslintConfigPrettier from 'eslint-config-prettier'
-import eslintPluginPrettier from 'eslint-plugin-prettier'
-import importPlugin from 'eslint-plugin-import'
-import babelParser from '@babel/eslint-parser'
-
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+import importPlugin from 'eslint-plugin-import';
+import babelParser from '@babel/eslint-parser';
 
 export default [
   { ignores: ['node_modules', 'dist', 'build'] },
@@ -18,15 +17,15 @@ export default [
       globals: globals.browser,
       parser: babelParser,
       parserOptions: {
-        requireConfigFile:false,
+        requireConfigFile: false,
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
         babelOptions: {
           babelrc: false,
           configFile: false,
-          presets: ['@babel/preset-react']
-        }
+          presets: ['@babel/preset-react'],
+        },
       },
     },
     settings: { react: { version: '18.3' } },
@@ -60,4 +59,4 @@ export default [
       ],
     },
   },
-]
+];

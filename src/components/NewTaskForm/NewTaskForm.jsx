@@ -1,31 +1,31 @@
-import { Component } from 'react'
-import './NewTaskForm.css'
-import PropTypes from 'prop-types'
+import { Component } from 'react';
+import './NewTaskForm.css';
+import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
   static propTypes = {
     handleKey: PropTypes.func,
-  }
+  };
 
   state = {
     value: '',
-  }
+  };
 
   handleChange = (e) => {
     this.setState({
       value: e.target.value,
-    })
-  }
+    });
+  };
 
   onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    this.state.value ? this.props.handleKey(this.state.value) : 0
+    this.state.value ? this.props.handleKey(this.state.value) : 0;
 
     this.setState({
       value: '',
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -38,6 +38,6 @@ export default class NewTaskForm extends Component {
           value={this.state.value}
         />
       </form>
-    )
+    );
   }
 }
