@@ -24,6 +24,7 @@ export default class TaskList extends Component {
           onDeleted={onDeleted}
           value={item.value}
           completed={item.completed}
+          checked={item.checked}
           editing={item.editing}
           onToggleCompleted={() => onToggleCompleted(item.id)}
           onToggleEditing={() => onToggleEditing(item.id)}

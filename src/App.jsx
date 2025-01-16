@@ -14,6 +14,7 @@ export default class App extends Component {
       value,
       completed: false,
       editing: false,
+      checked: false,
     };
   };
 
@@ -48,6 +49,11 @@ export default class App extends Component {
     this.setState(({ tasks }) => {
       return {
         tasks: this.toggleProperty(tasks, id, 'completed'),
+      };
+    });
+    this.setState(({ tasks }) => {
+      return {
+        tasks: this.toggleProperty(tasks, id, 'checked'),
       };
     });
   };
