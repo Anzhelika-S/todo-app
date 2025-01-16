@@ -56,9 +56,9 @@ export default class Task extends Component {
 
     return (
       <li className={classNames} id={id}>
-        <div className="view" onClick={onToggleCompleted}>
-          <input className="toggle" type="checkbox" defaultChecked={checked} />
-          <label>
+        <div className="view">
+          <input className="toggle" type="checkbox" checked={checked} onChange={onToggleCompleted} id={`radio-${id}`} />
+          <label htmlFor={`radio-${id}`}>
             <span className="description">{value}</span>
             <span className="created">created {time} ago</span>
           </label>
