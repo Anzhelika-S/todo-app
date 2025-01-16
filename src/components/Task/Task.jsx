@@ -36,6 +36,7 @@ export default class Task extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (this.state.value === '') return;
     this.props.onEdit(this.props.id, this.state.value);
   };
 
