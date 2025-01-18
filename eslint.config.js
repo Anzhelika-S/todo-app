@@ -4,7 +4,6 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import eslintPluginPrettier from 'eslint-plugin-prettier';
 import importPlugin from 'eslint-plugin-import';
 import babelParser from '@babel/eslint-parser';
 
@@ -31,11 +30,10 @@ export default [
     settings: { react: { version: '18.3' } },
     plugins: {
       react,
-      eslintConfigPrettier,
-      eslintPluginPrettier,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       import: importPlugin,
+      eslintConfigPrettier,
     },
     rules: {
       ...js.configs.recommended.rules,
