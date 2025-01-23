@@ -7,13 +7,15 @@ import TaskList from './components/TaskList';
 import Footer from './components/Footer';
 
 export default class App extends Component {
-  createTask = (value) => {
+  createTask = (value, min, sec) => {
     return {
       id: uuidv4(),
       value,
       completed: false,
       editing: false,
       checked: false,
+      min: min,
+      sec: sec,
     };
   };
 
@@ -22,8 +24,8 @@ export default class App extends Component {
     filter: 'all',
   };
 
-  handleKey = (value) => {
-    const task = this.createTask(value);
+  handleKey = (value, min, sec) => {
+    const task = this.createTask(value, min, sec);
 
     this.setState(({ tasks }) => {
       const newArr = [...tasks, task];
