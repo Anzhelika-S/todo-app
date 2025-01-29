@@ -10,7 +10,7 @@ export default class NewTaskForm extends Component {
   state = {
     value: '',
     min: 5,
-    sec: '00',
+    sec: 0,
   };
 
   handleChange = (e) => {
@@ -55,7 +55,7 @@ export default class NewTaskForm extends Component {
     this.setState({
       value: '',
       min: 5,
-      sec: '00',
+      sec: 0,
     });
   };
 

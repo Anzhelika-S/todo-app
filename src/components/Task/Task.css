@@ -135,24 +135,23 @@ form {
 
 .todo-list li .icon-pause,
 .todo-list li .icon-play {
-	font-size: 18px;
-	width: 18px;
-	height: 18px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
   position: relative;
 }
 
 .todo-list li .icon-play {
-	font-size: 15px;
+  font-size: 15px;
 }
 
 .icon-pause:after {
-	content: '⏸';
+  content: '⏸';
 }
 
 .icon-play:after {
-	content: '▶';
+  content: '▶';
 }
-
 
 .todo-list li .edit {
   display: none;
