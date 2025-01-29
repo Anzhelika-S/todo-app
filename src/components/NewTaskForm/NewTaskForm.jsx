@@ -10,7 +10,7 @@ export default class NewTaskForm extends Component {
   state = {
     value: '',
     min: 5,
-    sec: 0,
+    sec: '00',
   };
 
   handleChange = (e) => {
@@ -20,11 +20,27 @@ export default class NewTaskForm extends Component {
   };
 
   onMinuteChange = (e) => {
-    this.setState({ min: +e.target.value });
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      const numericValue = Number(value);
+      if (numericValue >= 0 && numericValue <= 59) {
+        this.setState({ min: value });
+      } else if (value === '') {
+        this.setState({ min: '' });
+      }
+    }
   };
 
   onSecChange = (e) => {
-    this.setState({ sec: +e.target.value });
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      const numericValue = Number(value);
+      if (numericValue >= 0 && numericValue <= 59) {
+        this.setState({ sec: value });
+      } else if (value === '') {
+        this.setState({ sec: '' });
+      }
+    }
   };
 
   onSubmit = (e) => {
@@ -32,12 +48,14 @@ export default class NewTaskForm extends Component {
 
     const { value, min, sec } = this.state;
 
-    this.state.value ? this.props.handleKey(value, min, sec) : 0;
+    console.log(value, min, sec);
+
+    this.state.value && min >= 0 && sec >= 0 ? this.props.handleKey(value, min, sec) : 0;
 
     this.setState({
       value: '',
       min: 5,
-      sec: 0,
+      sec: '00',
     });
   };
 
@@ -60,10 +78,19 @@ export default class NewTaskForm extends Component {
         <input
           className="new-todo new-todo-form__timer"
           placeholder="Min"
-          onChange={this.onMinuteChange}
+          onInput={this.onMinuteChange}
           maxLength={2}
+          pattern="\d*"
+          value={this.state.min}
         />
-        <input className="new-todo new-todo-form__timer" placeholder="Sec" onChange={this.onSecChange} maxLength={2} />
+        <input
+          className="new-todo new-todo-form__timer"
+          placeholder="Sec"
+          onInput={this.onSecChange}
+          maxLength={2}
+          pattern="\d*"
+          value={this.state.sec}
+        />
       </form>
     );
   }

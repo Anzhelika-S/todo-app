@@ -43,7 +43,19 @@ export default class Task extends Component {
   render() {
     let classNames = 'task';
 
-    const { id, value, onDeleted, onToggleCompleted, onToggleEditing, completed, editing, checked } = this.props;
+    const {
+      id,
+      value,
+      min,
+      sec,
+      onDeleted,
+      onToggleCompleted,
+      onToggleEditing,
+      completed,
+      editing,
+      checked,
+      handleTimer,
+    } = this.props;
 
     if (completed) {
       classNames += ' completed';
@@ -61,6 +73,11 @@ export default class Task extends Component {
           <input className="toggle" type="checkbox" checked={checked} onChange={onToggleCompleted} id={`radio-${id}`} />
           <label htmlFor={`radio-${id}`}>
             <span className="description">{value}</span>
+            <span className="description description-timer">
+              <button className="icon icon-play" onClick={() => handleTimer(id, 'start')}></button>
+              <button className="icon icon-pause" onClick={() => handleTimer(id, 'pause')}></button>
+              {min}:{sec}
+            </span>
             <span className="created">created {time} ago</span>
           </label>
           <button className="icon icon-edit" onClick={onToggleEditing}></button>

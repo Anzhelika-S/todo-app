@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import './App.css';
 
+import './App.css';
 import Header from './components/Header';
 import TaskList from './components/TaskList';
 import Footer from './components/Footer';
@@ -16,16 +16,19 @@ export default class App extends Component {
       checked: false,
       min: min,
       sec: sec,
+      running: false,
+      intervalID: null,
     };
   };
 
   state = {
-    tasks: [this.createTask('new task'), this.createTask('new task'), this.createTask('new task')],
+    tasks: [this.createTask('new task', 5, 0), this.createTask('new task', 5, 0), this.createTask('new task', 5, 0)],
     filter: 'all',
   };
 
   handleKey = (value, min, sec) => {
     const task = this.createTask(value, min, sec);
+    console.log(task);
 
     this.setState(({ tasks }) => {
       const newArr = [...tasks, task];
@@ -41,9 +44,16 @@ export default class App extends Component {
     if (idx < 0) return;
 
     const oldTask = arr[idx];
-    const newTask = { ...oldTask, [propName]: !oldTask[propName] };
 
-    return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
+    if (propName === 'completed' || propName === 'checked') {
+      const newTask = { ...oldTask, [propName]: !oldTask[propName], running: false, min: 0, sec: 0 };
+      return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
+    }
+
+    if (propName === 'editing') {
+      const newTask = { ...oldTask, editing: !oldTask['editing'] };
+      return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
+    }
   };
 
   onToggleCompleted = (id) => {
@@ -119,6 +129,52 @@ export default class App extends Component {
     });
   };
 
+  handleTimer = (id, value) => {
+    this.setState(({ tasks }) => {
+      const newArr = tasks.map((task) => {
+        if (task.id !== id) return task;
+
+        if (value === 'pause') {
+          clearInterval(task.intervalID);
+          return { ...task, running: false, intervalID: null };
+        }
+
+        if (value === 'start' && !task.running) {
+          const intervalID = setInterval(() => {
+            this.setState(({ tasks }) => {
+              const newTasks = tasks.map((t) => {
+                if (t.id !== id) return t;
+
+                if (t.min === 0 && t.sec === 0) {
+                  clearInterval(t.intervalID);
+                  return { ...t, running: false, intervalID: null };
+                }
+
+                if (t.sec === 0) {
+                  return { ...t, min: t.min - 1, sec: 59 };
+                }
+
+                if (t.completed) {
+                  clearInterval(t.intervalID);
+                  return { ...t, intervalID: null };
+                }
+
+                return { ...t, sec: t.sec - 1 };
+              });
+
+              return { tasks: newTasks };
+            });
+          }, 1000);
+
+          return { ...task, running: true, intervalID };
+        }
+
+        return task;
+      });
+      return { tasks: newArr };
+    });
+  };
+
   render() {
     const todoCount = this.state.tasks?.filter((el) => !el.completed).length || 0;
     const filteredTasks = this.getFilteredTasks();
@@ -132,6 +188,7 @@ export default class App extends Component {
           onToggleCompleted={this.onToggleCompleted}
           onToggleEditing={this.onToggleEditing}
           onEdit={this.onEdit}
+          handleTimer={this.handleTimer}
         />
         <Footer
           left={todoCount}

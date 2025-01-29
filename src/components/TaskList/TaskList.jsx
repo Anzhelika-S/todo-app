@@ -14,7 +14,7 @@ export default class TaskList extends Component {
   };
 
   render() {
-    const { tasks, onToggleCompleted, onToggleEditing, onDeleted, onEdit } = this.props;
+    const { tasks, onToggleCompleted, onToggleEditing, onDeleted, onEdit, handleTimer } = this.props;
 
     const elements = tasks.map((item) => {
       return (
@@ -23,12 +23,15 @@ export default class TaskList extends Component {
           id={item.id}
           onDeleted={onDeleted}
           value={item.value}
+          min={item.min}
+          sec={item.sec}
           completed={item.completed}
           checked={item.checked}
           editing={item.editing}
           onToggleCompleted={() => onToggleCompleted(item.id)}
           onToggleEditing={() => onToggleEditing(item.id)}
           onEdit={onEdit}
+          handleTimer={handleTimer}
         />
       );
     });

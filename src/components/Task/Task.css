@@ -129,6 +129,31 @@ form {
   content: '✎';
 }
 
+.description-timer {
+  font-size: 1rem;
+}
+
+.todo-list li .icon-pause,
+.todo-list li .icon-play {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+  position: relative;
+}
+
+.todo-list li .icon-play {
+	font-size: 15px;
+}
+
+.icon-pause:after {
+	content: '⏸';
+}
+
+.icon-play:after {
+	content: '▶';
+}
+
+
 .todo-list li .edit {
   display: none;
 }
