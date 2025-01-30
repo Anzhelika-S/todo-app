@@ -3,8 +3,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 export default class Task extends Component {
-  createdAt = new Date();
-
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
@@ -23,6 +21,12 @@ export default class Task extends Component {
     editing: false,
     checked: false,
   };
+
+  componentWillUnmount() {
+    if (!this.props.running) {
+      clearInterval(this.props.intervalID);
+    }
+  }
 
   state = {
     value: this.props.value,
@@ -55,6 +59,7 @@ export default class Task extends Component {
       editing,
       checked,
       handleTimer,
+      createdAt,
     } = this.props;
 
     if (completed) {
@@ -65,7 +70,7 @@ export default class Task extends Component {
       classNames += ' editing';
     }
 
-    const time = formatDistanceToNowStrict(this.createdAt);
+    const time = formatDistanceToNowStrict(createdAt);
 
     return (
       <li className={classNames} id={id}>

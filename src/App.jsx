@@ -18,6 +18,7 @@ export default class App extends Component {
       sec: sec,
       running: false,
       intervalID: null,
+      createdAt: new Date(),
     };
   };
 
@@ -28,7 +29,6 @@ export default class App extends Component {
 
   handleKey = (value, min, sec) => {
     const task = this.createTask(value, min, sec);
-    console.log(task);
 
     this.setState(({ tasks }) => {
       const newArr = [...tasks, task];

@@ -32,6 +32,9 @@ export default class TaskList extends Component {
           onToggleEditing={() => onToggleEditing(item.id)}
           onEdit={onEdit}
           handleTimer={handleTimer}
+          createdAt={item.createdAt}
+          intervalID={item.intervalID}
+          running={item.running}
         />
       );
     });
