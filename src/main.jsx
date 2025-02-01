@@ -1,6 +1,11 @@
 import { createRoot } from 'react-dom/client';
+import { StrictMode } from 'react';
 
 import './index.css';
 import App from './App.jsx';
 
-createRoot(document.getElementById('todoapp')).render(<App />);
+createRoot(document.getElementById('todoapp')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
