@@ -13,7 +13,6 @@ export default class App extends Component {
       value,
       completed: false,
       editing: false,
-      checked: false,
       min: min,
       sec: sec,
       running: false,
@@ -45,8 +44,8 @@ export default class App extends Component {
 
     const oldTask = arr[idx];
 
-    if (propName === 'completed' || propName === 'checked') {
-      const newTask = { ...oldTask, [propName]: !oldTask[propName], running: false, min: 0, sec: 0 };
+    if (propName === 'completed') {
+      const newTask = { ...oldTask, completed: !oldTask['completed'], running: false, min: 0, sec: 0 };
       return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
     }
 
@@ -60,11 +59,6 @@ export default class App extends Component {
     this.setState(({ tasks }) => {
       return {
         tasks: this.toggleProperty(tasks, id, 'completed'),
-      };
-    });
-    this.setState(({ tasks }) => {
-      return {
-        tasks: this.toggleProperty(tasks, id, 'checked'),
       };
     });
   };
@@ -120,8 +114,7 @@ export default class App extends Component {
     const { tasks } = this.state;
     let el = tasks.filter((el) => el.id === id);
     const idx = tasks.findIndex((el) => el.id === id);
-
-    el = { ...el, value: value, id: id };
+    el = { ...el[0], value: value, id: id, editing: false };
     const newArr = [...tasks.slice(0, idx), el, ...tasks.slice(idx + 1)];
 
     this.setState({

@@ -12,36 +12,45 @@ export default class Task extends Component {
     onToggleEditing: PropTypes.func,
     completed: PropTypes.bool,
     editing: PropTypes.bool,
-    checked: PropTypes.bool,
   };
 
   static defaultProps = {
     value: 'New Task',
     completed: false,
     editing: false,
-    checked: false,
   };
 
   componentWillUnmount() {
-    if (!this.props.running) {
+    if (this.props.running) {
       clearInterval(this.props.intervalID);
     }
   }
 
   state = {
     value: this.props.value,
+    newValue: this.props.value,
   };
 
   onTaskChange = (e) => {
     let { value } = e.target;
 
-    this.setState({ value: value });
+    this.setState({ newValue: value });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.value === '') return;
-    this.props.onEdit(this.props.id, this.state.value);
+    if (this.state.newValue === '') return;
+    this.props.onEdit(this.props.id, this.state.newValue);
+  };
+
+  onKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.onSubmit(e);
+    } else if (e.key === 'Escape') {
+      const { value } = this.state;
+      this.setState({ value: value, newValue: value });
+      this.props.onToggleEditing(this.props.id);
+    }
   };
 
   render() {
@@ -57,7 +66,6 @@ export default class Task extends Component {
       onToggleEditing,
       completed,
       editing,
-      checked,
       handleTimer,
       createdAt,
     } = this.props;
@@ -75,7 +83,13 @@ export default class Task extends Component {
     return (
       <li className={classNames} id={id}>
         <div className="view">
-          <input className="toggle" type="checkbox" checked={checked} onChange={onToggleCompleted} id={`radio-${id}`} />
+          <input
+            className="toggle"
+            type="checkbox"
+            checked={completed}
+            onChange={onToggleCompleted}
+            id={`radio-${id}`}
+          />
           <label htmlFor={`radio-${id}`}>
             <span className="description">{value}</span>
             <span className="description description-timer">
@@ -88,8 +102,8 @@ export default class Task extends Component {
           <button className="icon icon-edit" onClick={onToggleEditing}></button>
           <button className="icon icon-destroy" onClick={(event) => onDeleted(id, event)}></button>
         </div>
-        <form onSubmit={this.onSubmit}>
-          <input type="text" defaultValue={value} className="edit" onChange={this.onTaskChange} />
+        <form onKeyDown={this.onKeyDown}>
+          <input type="text" value={this.state.newValue} className="edit" onChange={this.onTaskChange} />
         </form>
       </li>
     );

@@ -48,8 +48,6 @@ export default class NewTaskForm extends Component {
 
     const { value, min, sec } = this.state;
 
-    console.log(value, min, sec);
-
     this.state.value && min >= 0 && sec >= 0 ? this.props.handleKey(value, min, sec) : 0;
 
     this.setState({
