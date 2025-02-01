@@ -23,7 +23,6 @@ export default class TaskList extends Component {
           id={item.id}
           onDeleted={onDeleted}
           value={item.value}
-          min={item.min}
           sec={item.sec}
           completed={item.completed}
           editing={item.editing}

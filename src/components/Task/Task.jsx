@@ -20,12 +20,6 @@ export default class Task extends Component {
     editing: false,
   };
 
-  componentWillUnmount() {
-    if (this.props.running) {
-      clearInterval(this.props.intervalID);
-    }
-  }
-
   state = {
     value: this.props.value,
     newValue: this.props.value,
@@ -53,13 +47,31 @@ export default class Task extends Component {
     }
   };
 
+  formatSeconds = (time) => {
+    let min;
+    let sec;
+
+    if (time === 0) {
+      min = 0;
+      sec = 0;
+    } else {
+      min = Math.floor(time / 60);
+      sec = time % 60;
+    }
+
+    return (
+      <span>
+        {min < 10 ? `0${min}` : min}:{sec < 10 ? `0${sec}` : sec}
+      </span>
+    );
+  };
+
   render() {
     let classNames = 'task';
 
     const {
       id,
       value,
-      min,
       sec,
       onDeleted,
       onToggleCompleted,
@@ -95,7 +107,7 @@ export default class Task extends Component {
             <span className="description description-timer">
               <button className="icon icon-play" onClick={() => handleTimer(id, 'start')}></button>
               <button className="icon icon-pause" onClick={() => handleTimer(id, 'pause')}></button>
-              {min}:{sec}
+              {this.formatSeconds(sec)}
             </span>
             <span className="created">created {time} ago</span>
           </label>

@@ -7,13 +7,12 @@ import TaskList from './components/TaskList';
 import Footer from './components/Footer';
 
 export default class App extends Component {
-  createTask = (value, min, sec) => {
+  createTask = (value, sec) => {
     return {
       id: uuidv4(),
       value,
       completed: false,
       editing: false,
-      min: min,
       sec: sec,
       running: false,
       intervalID: null,
@@ -22,12 +21,12 @@ export default class App extends Component {
   };
 
   state = {
-    tasks: [this.createTask('new task', 5, 0), this.createTask('new task', 5, 0), this.createTask('new task', 5, 0)],
+    tasks: [this.createTask('new task', 300), this.createTask('new task', 60000), this.createTask('new task', 5000)],
     filter: 'all',
   };
 
-  handleKey = (value, min, sec) => {
-    const task = this.createTask(value, min, sec);
+  handleKey = (value, sec) => {
+    const task = this.createTask(value, sec);
 
     this.setState(({ tasks }) => {
       const newArr = [...tasks, task];
@@ -75,12 +74,14 @@ export default class App extends Component {
     event.stopPropagation();
 
     this.setState(({ tasks }) => {
-      const idx = tasks.findIndex((el) => el.id === id);
+      const task = tasks.find((el) => el.id === id);
 
-      const newArr = [...tasks.slice(0, idx), ...tasks.slice(idx + 1)];
+      if (task.intervalID) {
+        clearInterval(task.intervalID);
+      }
 
       return {
-        tasks: newArr,
+        tasks: tasks.filter((el) => el.id !== id),
       };
     });
   };
@@ -123,53 +124,47 @@ export default class App extends Component {
   };
 
   handleTimer = (id, value) => {
-    this.setState(({ tasks }) => {
-      const newArr = tasks.map((task) => {
-        if (task.id !== id) return task;
+    const arr = this.state.tasks.map((task) => {
+      if (task.id !== id) return task;
 
-        if (value === 'pause') {
+      if (value === 'pause') {
+        if (task.intervalID) {
           clearInterval(task.intervalID);
-          return { ...task, running: false, intervalID: null };
         }
+        return { ...task, running: false, intervalID: null };
+      }
 
-        if (value === 'start' && !task.running) {
-          const intervalID = setInterval(() => {
-            this.setState(({ tasks }) => {
-              const newTasks = tasks.map((t) => {
-                if (t.id !== id) return t;
+      if (value === 'start' && !task.running) {
+        if (task.intervalID) return task;
 
-                if (t.min === 0 && t.sec === 0) {
-                  clearInterval(t.intervalID);
-                  return { ...t, running: false, intervalID: null };
-                }
+        const intervalID = setInterval(() => {
+          this.setState((state) => {
+            const newTasks = state.tasks.map((t) => {
+              if (t.id !== id) return t;
 
-                if (t.sec === 0) {
-                  return { ...t, min: t.min - 1, sec: 59 };
-                }
+              if (t.sec === 0 || t.completed) {
+                clearInterval(t.intervalID);
+                return { ...t, running: false, intervalID: null };
+              }
 
-                if (t.completed) {
-                  clearInterval(t.intervalID);
-                  return { ...t, intervalID: null };
-                }
-
-                return { ...t, sec: t.sec - 1 };
-              });
-
-              return { tasks: newTasks };
+              return { ...t, sec: t.sec - 1 };
             });
-          }, 1000);
 
-          return { ...task, running: true, intervalID };
-        }
+            return { tasks: newTasks };
+          });
+        }, 1000);
 
-        return task;
-      });
-      return { tasks: newArr };
+        return { ...task, running: true, intervalID };
+      }
+
+      return task;
     });
+
+    this.setState({ tasks: arr });
   };
 
   render() {
-    const todoCount = this.state.tasks?.filter((el) => !el.completed).length || 0;
+    const todoCount = this.state.tasks.filter((el) => !el.completed).length || 0;
     const filteredTasks = this.getFilteredTasks();
 
     return (

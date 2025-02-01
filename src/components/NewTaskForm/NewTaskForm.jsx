@@ -9,8 +9,6 @@ export default class NewTaskForm extends Component {
 
   state = {
     value: '',
-    min: 5,
-    sec: 0,
   };
 
   handleChange = (e) => {
@@ -24,9 +22,9 @@ export default class NewTaskForm extends Component {
     if (/^\d*$/.test(value)) {
       const numericValue = Number(value);
       if (numericValue >= 0 && numericValue <= 59) {
-        this.setState({ min: value });
+        this.setState({ sec: this.state.sec + value * 60 });
       } else if (value === '') {
-        this.setState({ min: '' });
+        return;
       }
     }
   };
@@ -36,7 +34,7 @@ export default class NewTaskForm extends Component {
     if (/^\d*$/.test(value)) {
       const numericValue = Number(value);
       if (numericValue >= 0 && numericValue <= 59) {
-        this.setState({ sec: value });
+        this.setState({ sec: this.state.sec + value });
       } else if (value === '') {
         this.setState({ sec: '' });
       }
@@ -46,13 +44,12 @@ export default class NewTaskForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { value, min, sec } = this.state;
+    const { value, sec } = this.state;
 
-    this.state.value && min >= 0 && sec >= 0 ? this.props.handleKey(value, min, sec) : 0;
+    this.state.value && sec >= 0 ? this.props.handleKey(value, sec) : 0;
 
     this.setState({
       value: '',
-      min: 5,
       sec: 0,
     });
   };
@@ -79,7 +76,6 @@ export default class NewTaskForm extends Component {
           onInput={this.onMinuteChange}
           maxLength={2}
           pattern="\d*"
-          value={this.state.min}
         />
         <input
           className="new-todo new-todo-form__timer"
@@ -87,7 +83,6 @@ export default class NewTaskForm extends Component {
           onInput={this.onSecChange}
           maxLength={2}
           pattern="\d*"
-          value={this.state.sec}
         />
       </form>
     );
