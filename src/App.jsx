@@ -21,11 +21,12 @@ export default class App extends Component {
   };
 
   state = {
-    tasks: [this.createTask('new task', 300), this.createTask('new task', 60000), this.createTask('new task', 5000)],
+    tasks: [this.createTask('new task', 300), this.createTask('new task', 600), this.createTask('new task', 60)],
     filter: 'all',
   };
 
   handleKey = (value, sec) => {
+    if (!sec) sec = 300;
     const task = this.createTask(value, sec);
 
     this.setState(({ tasks }) => {

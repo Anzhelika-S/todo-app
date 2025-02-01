@@ -9,6 +9,9 @@ export default class NewTaskForm extends Component {
 
   state = {
     value: '',
+    min: '',
+    sec: '',
+    time: '',
   };
 
   handleChange = (e) => {
@@ -20,9 +23,9 @@ export default class NewTaskForm extends Component {
   onMinuteChange = (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
-      const numericValue = Number(value);
-      if (numericValue >= 0 && numericValue <= 59) {
-        this.setState({ sec: this.state.sec + value * 60 });
+      const number = Number(value);
+      if (number >= 0 && number <= 59) {
+        this.setState({ min: number, time: number * 60 });
       } else if (value === '') {
         return;
       }
@@ -32,25 +35,29 @@ export default class NewTaskForm extends Component {
   onSecChange = (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
-      const numericValue = Number(value);
-      if (numericValue >= 0 && numericValue <= 59) {
-        this.setState({ sec: this.state.sec + value });
+      const number = Number(value);
+      if (number >= 0 && number <= 59) {
+        this.setState((state) => ({
+          time: (state.min || 0) * 60 + number,
+          sec: number,
+        }));
       } else if (value === '') {
-        this.setState({ sec: '' });
+        return;
       }
     }
   };
 
   onSubmit = (e) => {
     e.preventDefault();
+    const { time, value } = this.state;
 
-    const { value, sec } = this.state;
-
-    this.state.value && sec >= 0 ? this.props.handleKey(value, sec) : 0;
+    value && time >= 0 ? this.props.handleKey(value, time) : 0;
 
     this.setState({
       value: '',
-      sec: 0,
+      min: '',
+      sec: '',
+      time: '',
     });
   };
 
@@ -61,6 +68,7 @@ export default class NewTaskForm extends Component {
   };
 
   render() {
+    const { sec, min, value } = this.state;
     return (
       <form onSubmit={this.onSubmit} onKeyDown={this.onKeyDown} className="new-todo-form">
         <input
@@ -68,7 +76,7 @@ export default class NewTaskForm extends Component {
           placeholder="What needs to be done?"
           autoFocus
           onChange={this.handleChange}
-          value={this.state.value}
+          value={value}
         />
         <input
           className="new-todo new-todo-form__timer"
@@ -76,6 +84,7 @@ export default class NewTaskForm extends Component {
           onInput={this.onMinuteChange}
           maxLength={2}
           pattern="\d*"
+          value={min}
         />
         <input
           className="new-todo new-todo-form__timer"
@@ -83,6 +92,7 @@ export default class NewTaskForm extends Component {
           onInput={this.onSecChange}
           maxLength={2}
           pattern="\d*"
+          value={sec}
         />
       </form>
     );
