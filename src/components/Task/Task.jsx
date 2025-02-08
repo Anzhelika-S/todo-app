@@ -29,6 +29,7 @@ export default class Task extends Component {
     let { value } = e.target;
 
     this.setState({ newValue: value });
+    console.log('Log from onTaskChange: ', this.state);
   };
 
   onSubmit = (e) => {
@@ -44,6 +45,7 @@ export default class Task extends Component {
       const { value } = this.state;
       this.setState({ value: value, newValue: value });
       this.props.onToggleEditing(this.props.id);
+      console.log('Log from onKeyDown: ', this.state);
     }
   };
 
