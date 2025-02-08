@@ -1,55 +1,45 @@
 import './Task.css';
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
-export default class Task extends Component {
-  static propTypes = {
-    id: PropTypes.string,
-    value: PropTypes.string,
-    onDeleted: PropTypes.func,
-    onEdit: PropTypes.func,
-    onToggleCompleted: PropTypes.func,
-    onToggleEditing: PropTypes.func,
-    completed: PropTypes.bool,
-    editing: PropTypes.bool,
-  };
 
-  static defaultProps = {
-    value: 'New Task',
-    completed: false,
-    editing: false,
-  };
+export default function Task({
+  value,
+  id,
+  sec,
+  completed,
+  editing,
+  onToggleCompleted,
+  onToggleEditing,
+  onEdit,
+  onDeleted,
+  handleTimer,
+  createdAt,
+}) {
+  const [newValue, setNewValue] = useState(value);
 
-  state = {
-    value: this.props.value,
-    newValue: this.props.value,
-  };
-
-  onTaskChange = (e) => {
+  const onTaskChange = (e) => {
     let { value } = e.target;
 
-    this.setState({ newValue: value });
-    console.log('Log from onTaskChange: ', this.state);
+    setNewValue(value);
   };
 
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.newValue === '') return;
-    this.props.onEdit(this.props.id, this.state.newValue);
+    if (newValue === '') return;
+    onEdit(id, newValue);
   };
 
-  onKeyDown = (e) => {
+  const onKeyDown = (e) => {
     if (e.key === 'Enter') {
-      this.onSubmit(e);
+      onSubmit(e);
     } else if (e.key === 'Escape') {
-      const { value } = this.state;
-      this.setState({ value: value, newValue: value });
-      this.props.onToggleEditing(this.props.id);
-      console.log('Log from onKeyDown: ', this.state);
+      setNewValue(newValue);
+      onToggleEditing(id);
     }
   };
 
-  formatSeconds = (time) => {
+  const formatSeconds = (time) => {
     let min;
     let sec;
 
@@ -68,58 +58,48 @@ export default class Task extends Component {
     );
   };
 
-  render() {
-    let classNames = 'task';
+  let classNames = 'task';
 
-    const {
-      id,
-      value,
-      sec,
-      onDeleted,
-      onToggleCompleted,
-      onToggleEditing,
-      completed,
-      editing,
-      handleTimer,
-      createdAt,
-    } = this.props;
-
-    if (completed) {
-      classNames += ' completed';
-    }
-
-    if (editing) {
-      classNames += ' editing';
-    }
-
-    const time = formatDistanceToNowStrict(createdAt);
-
-    return (
-      <li className={classNames} id={id}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={completed}
-            onChange={onToggleCompleted}
-            id={`radio-${id}`}
-          />
-          <label htmlFor={`radio-${id}`}>
-            <span className="description">{value}</span>
-            <span className="description description-timer">
-              <button className="icon icon-play" onClick={() => handleTimer(id, 'start')}></button>
-              <button className="icon icon-pause" onClick={() => handleTimer(id, 'pause')}></button>
-              {this.formatSeconds(sec)}
-            </span>
-            <span className="created">created {time} ago</span>
-          </label>
-          <button className="icon icon-edit" onClick={onToggleEditing}></button>
-          <button className="icon icon-destroy" onClick={(event) => onDeleted(id, event)}></button>
-        </div>
-        <form onKeyDown={this.onKeyDown}>
-          <input type="text" value={this.state.newValue} className="edit" onChange={this.onTaskChange} />
-        </form>
-      </li>
-    );
+  if (completed) {
+    classNames += ' completed';
   }
+
+  if (editing) {
+    classNames += ' editing';
+  }
+
+  const time = formatDistanceToNowStrict(createdAt);
+
+  return (
+    <li className={classNames} id={id}>
+      <div className="view">
+        <input className="toggle" type="checkbox" checked={completed} onChange={onToggleCompleted} id={`radio-${id}`} />
+        <label htmlFor={`radio-${id}`}>
+          <span className="description">{value}</span>
+          <span className="description description-timer">
+            <button className="icon icon-play" onClick={() => handleTimer(id, 'start')}></button>
+            <button className="icon icon-pause" onClick={() => handleTimer(id, 'pause')}></button>
+            {formatSeconds(sec)}
+          </span>
+          <span className="created">created {time} ago</span>
+        </label>
+        <button className="icon icon-edit" onClick={onToggleEditing}></button>
+        <button className="icon icon-destroy" onClick={(event) => onDeleted(id, event)}></button>
+      </div>
+      <form onKeyDown={onKeyDown}>
+        <input type="text" value={newValue} className="edit" onChange={onTaskChange} />
+      </form>
+    </li>
+  );
 }
+
+Task.propTypes = {
+  id: PropTypes.string,
+  value: PropTypes.string,
+  onDeleted: PropTypes.func,
+  onEdit: PropTypes.func,
+  onToggleCompleted: PropTypes.func,
+  onToggleEditing: PropTypes.func,
+  completed: PropTypes.bool,
+  editing: PropTypes.bool,
+};
