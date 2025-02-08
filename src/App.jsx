@@ -30,41 +30,31 @@ export default function App() {
   const handleKey = (value, sec) => {
     if (!sec) sec = 300;
     const task = createTask(value, sec);
-
-    setTasks((tasks) => {
-      const newArr = [...tasks, task];
-
-      return newArr;
-    });
+    setTasks((tasks) => [...tasks, task]);
   };
 
   const toggleProperty = (arr, id, propName) => {
-    const idx = arr.findIndex((el) => el.id === id);
-    if (idx < 0) return;
+    const newTasks = arr.map((task) => {
+      if (task.id !== id) return task;
 
-    const oldTask = arr[idx];
+      if (propName === 'completed') {
+        return { ...task, completed: !task['completed'], running: false, min: 0, sec: 0 };
+      }
 
-    if (propName === 'completed') {
-      const newTask = { ...oldTask, completed: !oldTask['completed'], running: false, min: 0, sec: 0 };
-      return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
-    }
+      if (propName === 'editing') {
+        return { ...task, editing: !task['editing'] };
+      }
+    });
 
-    if (propName === 'editing') {
-      const newTask = { ...oldTask, editing: !oldTask['editing'] };
-      return [...arr.slice(0, idx), newTask, ...arr.slice(idx + 1)];
-    }
+    return newTasks;
   };
 
   const onToggleCompleted = (id) => {
-    setTasks((tasks) => {
-      return toggleProperty(tasks, id, 'completed');
-    });
+    setTasks((tasks) => toggleProperty(tasks, id, 'completed'));
   };
 
   const onToggleEditing = (id) => {
-    setTasks((tasks) => {
-      return toggleProperty(tasks, id, 'editing');
-    });
+    setTasks((tasks) => toggleProperty(tasks, id, 'editing'));
   };
 
   const deleteTask = (id, event) => {
@@ -82,9 +72,7 @@ export default function App() {
   };
 
   const onClearCompleted = () => {
-    const todoList = tasks.filter((el) => !el.completed);
-
-    setTasks(todoList);
+    setTasks(tasks.filter((el) => !el.completed));
   };
 
   const selectTasks = (status) => {
@@ -103,12 +91,13 @@ export default function App() {
   };
 
   const onEdit = (id, value) => {
-    let el = tasks.filter((el) => el.id === id);
-    const idx = tasks.findIndex((el) => el.id === id);
-    el = { ...el[0], value: value, id: id, editing: false };
-    const newArr = [...tasks.slice(0, idx), el, ...tasks.slice(idx + 1)];
+    const newTasks = tasks.map((task) => {
+      if (task.id !== id) return task;
 
-    setTasks(newArr);
+      return { ...task, value, id, editing: false };
+    });
+
+    setTasks(newTasks);
   };
 
   const handleTimer = (id, value) => {
@@ -150,8 +139,6 @@ export default function App() {
 
     setTasks(arr);
   };
-
-  console.log(tasks);
 
   const todoCount = tasks.filter((el) => !el.completed).length || 0;
   const filteredTasks = getFilteredTasks();
