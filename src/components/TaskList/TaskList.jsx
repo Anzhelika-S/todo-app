@@ -10,7 +10,7 @@ export default function TaskList({ tasks, onToggleCompleted, onToggleEditing, on
         key={item.id}
         id={item.id}
         onDeleted={onDeleted}
-        value={item.value}
+        initialValue={item.value}
         sec={item.sec}
         completed={item.completed}
         editing={item.editing}

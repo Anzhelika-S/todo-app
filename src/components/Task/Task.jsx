@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 
 export default function Task({
-  value,
+  initialValue,
   id,
   sec,
   completed,
@@ -16,7 +16,7 @@ export default function Task({
   handleTimer,
   createdAt,
 }) {
-  const [newValue, setNewValue] = useState(value);
+  const [newValue, setNewValue] = useState(initialValue);
 
   const onTaskChange = (e) => {
     let { value } = e.target;
@@ -34,7 +34,7 @@ export default function Task({
     if (e.key === 'Enter') {
       onSubmit(e);
     } else if (e.key === 'Escape') {
-      setNewValue(newValue);
+      setNewValue(initialValue);
       onToggleEditing(id);
     }
   };
@@ -75,7 +75,7 @@ export default function Task({
       <div className="view">
         <input className="toggle" type="checkbox" checked={completed} onChange={onToggleCompleted} id={`radio-${id}`} />
         <label htmlFor={`radio-${id}`}>
-          <span className="description">{value}</span>
+          <span className="description">{initialValue}</span>
           <span className="description description-timer">
             <button className="icon icon-play" onClick={() => handleTimer(id, 'start')}></button>
             <button className="icon icon-pause" onClick={() => handleTimer(id, 'pause')}></button>
